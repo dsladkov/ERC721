@@ -87,6 +87,26 @@ describe("MyToken", function() {
 
       expect(await myToken.balanceOf(owner.address)).eq(1);
     });
+
+    it("should possible to burn NFT token if an owner", async function() {
+      const {myToken, owner, user} = await loadFixture(deploy);
+      const tokenId = "bafkreiguanphv2g276xudwfecszxzyta4ryrnbegjkkpdce37cbapnyykq";
+      const safeMint = await myToken.safeMint(user.address, tokenId);
+      await safeMint.wait();
+
+      const burnTxResponse = await myToken.connect(user).burn(0);
+      expect(await myToken.balanceOf(user.address)).eq(0);
+      await expect(myToken.ownerOf(0)).revertedWith("not minted");
+    });
+
+    it("shouldn't possible to burn NFT token if not an owner", async function() {
+      const {myToken, owner, user} = await loadFixture(deploy);
+      const tokenId = "bafkreiguanphv2g276xudwfecszxzyta4ryrnbegjkkpdce37cbapnyykq";
+      const safeMint = await myToken.safeMint(user.address, tokenId);
+      await safeMint.wait();
+
+      await expect(myToken.burn(0)).revertedWith("not an owner!");
+    });
   });
   
 
