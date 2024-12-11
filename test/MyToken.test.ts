@@ -2,13 +2,13 @@ import {time, loadFixture, hre, ethers, expect, anyValue, SignerWithAddress} fro
 
 describe("MyToken", function() {
   async function deploy() {
-    const [owner, user] = await ethers.getSigners();
+    const [owner, user, user2, attacker] = await ethers.getSigners();
 
     const MyToken = await ethers.getContractFactory("MyToken");
     const myToken = await MyToken.deploy();
     await myToken.waitForDeployment();
 
-    return {myToken, owner, user};
+    return {myToken, owner, user, user2, attacker};
   }
 
   it("work", async function() {
@@ -106,6 +106,23 @@ describe("MyToken", function() {
       await safeMint.wait();
 
       await expect(myToken.burn(0)).revertedWith("not an owner!");
+    });
+
+    it("should possible to transfer token from by owner", async function() {
+      const {myToken, owner, user, user2 } = await loadFixture(deploy);
+      const tokenId = "bafkreiguanphv2g276xudwfecszxzyta4ryrnbegjkkpdce37cbapnyykq";
+      const safeMint = await myToken.safeMint(user.address, tokenId);
+      await safeMint.wait();
+
+      await expect(myToken.connect(user).transferFrom(user, user2, 0)).to.emit(myToken, "Transfer");
+    });
+    it("shouldn't possible to transfer NFT token if not an owner or has no rights", async function() {
+      const {myToken, owner, user, user2,attacker } = await loadFixture(deploy);
+      const tokenId = "bafkreiguanphv2g276xudwfecszxzyta4ryrnbegjkkpdce37cbapnyykq";
+      const safeMint = await myToken.safeMint(user.address, tokenId);
+      await safeMint.wait();
+
+      await expect(myToken.connect(attacker).transferFrom(user, attacker, 0)).to.revertedWith("not approved or owner!");
     });
   });
   
