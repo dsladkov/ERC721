@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-//taken from OpenZeppelin
+// taken from OpenZeppelin
 pragma solidity ^0.8.0;
 
 library Strings {

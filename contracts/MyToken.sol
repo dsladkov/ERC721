@@ -5,7 +5,7 @@ import "./ERC721.sol";
 import "./ERC721Enumerable.sol";
 import "./ERC721URIStorage.sol";
 
-contract MyToken is ERC721, ERC721URIStorage, ERC721Enumerable { //ERC721Enumerable
+contract MyToken is ERC721, ERC721URIStorage, ERC721Enumerable {
   address public owner;
   uint currentTokenId;
 

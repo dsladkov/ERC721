@@ -30,7 +30,7 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
   function transferFrom(address from, address to, uint tokenId) public {
     require(_isApprovedOrOwner(msg.sender, tokenId), "not approved or owner!");
     _transfer(from, to, tokenId);
-    emit Transfer(from, to, tokenId);
+    //emit Transfer(from, to, tokenId);
   }
 
   function safeTransferFrom(address from, address to, uint tokenId) public {
@@ -107,7 +107,7 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
     address _owner = ownerOf(tokenId);
     require(_owner == msg.sender || isApprovedForAll(_owner, msg.sender), "Not an owner");
 
-    require(to != _owner, "Cannot approve to yourself");
+    require(to != _owner, "Cannot approve to self");
 
     _tokenApprovals[tokenId] = to;
 
@@ -156,7 +156,7 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
    function _safeTransfer(address from, address to, uint tokenId, bytes memory data) internal {
     _transfer(from, to, tokenId);
     require(_checkOnERC721Received(from, to, tokenId, data), "transfer to non-erc721 receiver");
-   }
+   } 
 
    function _checkOnERC721Received(address from, address to, uint tokenId, bytes memory data) private returns(bool) {
     if(to.code.length > 0) {
