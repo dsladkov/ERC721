@@ -16,7 +16,7 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
   }
 
   function tokenByIndex(uint index) public view  returns(uint) {
-    require(index < _allTokens.length, "out of bonds"); // check index inside of array bonds
+    require(index < _allTokens.length, "out of bonds"); // check index inside of an array of bonds
 
     return _allTokens[index];
   }
@@ -66,7 +66,7 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
     _allTokensIndex[lastTokenId] = tokenIndex;
 
     delete _allTokensIndex[tokenId];
-    _allTokens.pop(); // delete moved token from the last psotion.
+    _allTokens.pop(); // delete moved token from the last position.
   }
 
   function _addTokenToOwnerEnumeration(address to, uint tokenId) private {

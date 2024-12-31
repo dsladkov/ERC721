@@ -7,5 +7,4 @@ interface IERC721Enumerable is IERC721 {
   function totalSupply() external view returns(uint);
   function tokenOfOwnerByIndex(address owner, uint index) external view returns(uint);
   function tokenByIndex(uint index) external view returns(uint);
-  
 }
